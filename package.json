@@ -1,19 +1,43 @@
 {
-    "name": "tocamosbot",
-    "version": "1.0.0",
-    "description": "",
-    "main": "functions/tocamos.js",
-    "dependencies": {
-      "netlify-lambda": "^1.6.0",
-      "telegraf": "^3.34.1"
-    },
-    "scripts": {
-      "postinstall": "netlify-lambda install",
-      "buildNetlify": "netlify-lambda build functions",
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "devNetlify": "netlify-lambda serve functions"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC"
+  "name": "paymentsbot",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "telegraf": "^4.4.1",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "netlify-dev"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "netlify-cli": "^6.8.5"
   }
+}
