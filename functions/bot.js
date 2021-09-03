@@ -10,7 +10,7 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf')
 
-// const sortFunction  = require ('./util/sort');
+const sortFunction  = require ('./util/sort');
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -22,6 +22,34 @@ bot.help((ctx) => ctx.reply(helpMessage))
 bot.on('sticker', (ctx) => ctx.reply('👍'))
 
 bot.hears('hi', (reply)=>reply.reply('👍'))
+
+bot.hears(/New (.+)/ , (ctx) =>
+{ 
+    let user_id = ctx.from.id;
+    let message = ctx.match[0];
+
+    let retData = sortFunction.sortFunction(message)
+
+    if( retData.Amount !== 0)
+    {
+
+        const url = `${process.env.GOOGLE_SHEET_URL}?Year=${encodeURIComponent(retData.Year)}&Month=${encodeURIComponent(retData.Month)}&Date=${encodeURIComponent(retData.Date)}&Title=${encodeURIComponent(retData.Title)}&Amount=${encodeURIComponent(retData.Amount)}&Category=${encodeURIComponent(retData.Category)}&Direction=${encodeURIComponent(retData.Direction)}`
+
+        fetch(url)
+        .then(res => {
+            return res.json()
+        })
+        .then(res => console.log("google sheet res", { res }))
+        .catch(error => console.error(error))
+
+        ctx.reply('added !')
+    }
+    else
+    {
+        ctx.reply('Oh no! Please check /help before trying again')
+    }
+
+})
 
 exports.handler = async function(event, context) {
     await bot.handleUpdate(JSON.parse(event.body));
