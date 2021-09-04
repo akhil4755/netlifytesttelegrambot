@@ -1,10 +1,7 @@
 const sortFunction  = require ('./util/sort');
 const { Telegraf } = require('telegraf')
 require('dotenv').config();
-
-// const axios = require('axios');
-
-// const fetch = require('node-fetch')
+const fetch = require('cross-fetch')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -30,19 +27,15 @@ bot.hears(/New (.+)/ , (ctx) =>
         {
             const url = `${process.env.GOOGLE_SHEET_URL}?Year=${encodeURIComponent(retData.Year)}&Month=${encodeURIComponent(retData.Month)}&Date=${encodeURIComponent(retData.Date)}&Title=${encodeURIComponent(retData.Title)}&Amount=${encodeURIComponent(retData.Amount)}&Category=${encodeURIComponent(retData.Category)}&Direction=${encodeURIComponent(retData.Direction)}`
 
-            // axios.get(url)
             fetch(url)
             .then(res => {
-                return res.json()
+                ctx.reply('added !')
             })
-            .then(res => console.log("google sheet res", { res }))
-            .catch(error => console.error(error))
-
-            ctx.reply('added !')
+            .catch(error => console.error(error))    
         }
         else
         {
-            ctx.reply('Oh no! Please check /help before trying again')
+            ctx.reply('Oh no! Please check /help before trying again or add some money')
         }
     }
     catch
