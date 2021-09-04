@@ -7,6 +7,7 @@
 
 // }
 
+import fetch from "node-fetch";
 require('dotenv').config();
 const { Telegraf } = require('telegraf')
 
@@ -30,25 +31,30 @@ bot.hears(/New (.+)/ , (ctx) =>
 
     let retData = sortFunction.sortFunction(message)
 
-    if( retData.Amount !== 0)
+    try
     {
+        if( retData.Amount !== 0 )
+        {
+            const url = `${process.env.GOOGLE_SHEET_URL}?Year=${encodeURIComponent(retData.Year)}&Month=${encodeURIComponent(retData.Month)}&Date=${encodeURIComponent(retData.Date)}&Title=${encodeURIComponent(retData.Title)}&Amount=${encodeURIComponent(retData.Amount)}&Category=${encodeURIComponent(retData.Category)}&Direction=${encodeURIComponent(retData.Direction)}`
 
-        const url = `${process.env.GOOGLE_SHEET_URL}?Year=${encodeURIComponent(retData.Year)}&Month=${encodeURIComponent(retData.Month)}&Date=${encodeURIComponent(retData.Date)}&Title=${encodeURIComponent(retData.Title)}&Amount=${encodeURIComponent(retData.Amount)}&Category=${encodeURIComponent(retData.Category)}&Direction=${encodeURIComponent(retData.Direction)}`
+            fetch(url)
+            .then(res => {
+                return res.json()
+            })
+            .then(res => console.log("google sheet res", { res }))
+            .catch(error => console.error(error))
 
-        fetch(url)
-        .then(res => {
-            return res.json()
-        })
-        .then(res => console.log("google sheet res", { res }))
-        .catch(error => console.error(error))
-
-        ctx.reply('added !')
+            ctx.reply('added !')
+        }
+        else
+        {
+            ctx.reply('Oh no! Please check /help before trying again')
+        }
     }
-    else
+    catch
     {
         ctx.reply('Oh no! Please check /help before trying again')
     }
-
 })
 
 exports.handler = async function(event, context) {
