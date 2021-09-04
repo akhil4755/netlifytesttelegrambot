@@ -29,7 +29,7 @@ bot.hears(/New (.+)/ , (ctx) =>
         {
             const url = `${process.env.GOOGLE_SHEET_URL}?Year=${encodeURIComponent(retData.Year)}&Month=${encodeURIComponent(retData.Month)}&Date=${encodeURIComponent(retData.Date)}&Title=${encodeURIComponent(retData.Title)}&Amount=${encodeURIComponent(retData.Amount)}&Category=${encodeURIComponent(retData.Category)}&Direction=${encodeURIComponent(retData.Direction)}`
 
-            axios.post(url)
+            axios.get(url)
             .then(res => {
                 return res.json()
             })
