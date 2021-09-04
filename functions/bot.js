@@ -10,9 +10,9 @@ let helpMessage = "cry";
 
 bot.start((ctx) => ctx.reply(welcomeMessage))
 bot.help((ctx) => ctx.reply(helpMessage))
-bot.on('sticker', (ctx) => ctx.reply('👍'))
+bot.on('sticker', (ctx) => ctx.reply('hi there'))
 
-bot.hears('hi', (reply)=>reply.reply('👍'))
+bot.hears('hi', (reply)=>reply.reply('hello'))
 
 bot.hears(/New (.+)/ , (ctx) =>
 { 
@@ -31,6 +31,7 @@ bot.hears(/New (.+)/ , (ctx) =>
                 ctx.reply('added !')
             }).on('error', (e) => {
                 ctx.reply('couldnt insert this entry : ' + JSON.stringify(retData) )
+                ctx.reply('because : ' + e )
             })
         }
         else
