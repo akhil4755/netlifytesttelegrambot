@@ -1,17 +1,9 @@
-// exports.handler = async function(event, context) {
-
-//     return {
-//         statusCode : 200,
-//         body : JSON.stringify({"message":"Helloo"})
-//     }
-
-// }
-
-import fetch from "node-fetch";
-require('dotenv').config();
-const { Telegraf } = require('telegraf')
-
 const sortFunction  = require ('./util/sort');
+const { Telegraf } = require('telegraf')
+require('dotenv').config();
+
+// const fetch = require('node-fetch');
+const axios = require('axios');
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -37,7 +29,7 @@ bot.hears(/New (.+)/ , (ctx) =>
         {
             const url = `${process.env.GOOGLE_SHEET_URL}?Year=${encodeURIComponent(retData.Year)}&Month=${encodeURIComponent(retData.Month)}&Date=${encodeURIComponent(retData.Date)}&Title=${encodeURIComponent(retData.Title)}&Amount=${encodeURIComponent(retData.Amount)}&Category=${encodeURIComponent(retData.Category)}&Direction=${encodeURIComponent(retData.Direction)}`
 
-            fetch(url)
+            axios.post(url)
             .then(res => {
                 return res.json()
             })
