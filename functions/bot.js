@@ -1,7 +1,7 @@
 const sortFunction  = require ('./util/sort');
 const { Telegraf } = require('telegraf')
 require('dotenv').config();
-const fetch = require('cross-fetch')
+const https = require('https')
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
@@ -27,11 +27,11 @@ bot.hears(/New (.+)/ , (ctx) =>
         {
             const url = `${process.env.GOOGLE_SHEET_URL}?Year=${encodeURIComponent(retData.Year)}&Month=${encodeURIComponent(retData.Month)}&Date=${encodeURIComponent(retData.Date)}&Title=${encodeURIComponent(retData.Title)}&Amount=${encodeURIComponent(retData.Amount)}&Category=${encodeURIComponent(retData.Category)}&Direction=${encodeURIComponent(retData.Direction)}`
 
-            fetch(url)
-            .then(res => {
+            https.get(url, (res) => {
                 ctx.reply('added !')
+            }).on('error', (e) => {
+                ctx.reply('couldnt insert this entry : ' + JSON.stringify(retData) )
             })
-            .catch(error => console.error(error))    
         }
         else
         {
